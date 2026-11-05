@@ -1,0 +1,21 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Microsoft YaHei, SimHei, PingFang SC, sans-serif"}}}%%
+flowchart TB
+    subgraph SYNTH["① KardiaBench 数据合成（模型-in-the-loop）"]
+        direction TB
+        U(["用户画像 u<br/>671 真实画像"]) --> GEN["用户生成器 U"]
+        S(["情感情境 s"]) --> GEN
+        GEN -->|"开场 x1 = U(u,s)"| RES["共情响应器 A<br/>四段式渐进推理"]
+        RES --> EV["Rubric 评估器 R<br/>d ∈ {SOLVED, PASS, FAIL}"]
+        EV -->|"内层修正 k ≤ K_max=5"| RES
+        EV -->|"情感更新 x_t+1 = U(·)"| GEN
+    end
+
+    SYNTH --> STAT["难度统计<br/>p_fail / p_pass / p_solved"]
+    STAT --> PART{"难度划分 (Eq.4)<br/>D_easy / D_hard"}
+
+    PART -->|"D_easy（易）"| SFT["Stage 1：冷启动 SFT<br/>四段式输出 · lr=1e-4"]
+    PART -->|"D_hard（难）"| RL["Stage 2：Rubric-ERL (GRPO)<br/>N=8 采样 · lr=1e-6"]
+
+    SFT --> ANCHOR["SFT 模型 π_θ0<br/>（作为 KL 锚）"]
+    ANCHOR --> RL
+    RL --> OUT(["Kardia-R1 模型"])

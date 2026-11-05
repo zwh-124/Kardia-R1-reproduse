@@ -1,0 +1,23 @@
+# ---------------------------------------------------------------------------
+# Kardia-R1: Unleashing LLMs to Reason toward Understanding and Empathy
+# for Emotional Support via Rubric-as-Judge Reinforcement Learning
+#
+# Reference implementation of the two-stage training framework described in
+# the paper.  The "core" algorithmic modules (data format, difficulty-aware
+# partitioning, format / emotion-matching / rubric-as-judge rewards, and GRPO
+# math) are pure Python and only require numpy, so they can be unit-tested
+# without a GPU.
+# ---------------------------------------------------------------------------
+
+# --- Core (required for the algorithm modules, tests and data generator) ----
+numpy>=1.24
+
+# --- Training / inference (optional; needed only for the full pipeline) -----
+# torch>=2.1
+# transformers>=4.44
+# datasets>=2.20
+# accelerate>=0.33
+# peft>=0.12
+# trl>=0.11
+# vllm>=0.6        # optional, fast RL rollout / inference
+# ms-swift>=2.5    # the training infra used by the original paper

@@ -1,0 +1,14 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Microsoft YaHei, SimHei, PingFang SC, sans-serif"}}}%%
+flowchart TB
+    START(["输入：画像 u，情境 s"]) --> X1["开场 x1 = U(u,s)"]
+    X1 --> T{"t ≤ T_max (10)?"}
+    T -->|是| INNER{"内层 k ≤ K_max (5)?"}
+    INNER -->|是| A["生成 y_t = A(x≤t, u)"]
+    A --> R["评分 d_t = R(x_t, y_t)"]
+    R --> DEC{"d_t 达标?"}
+    DEC -->|"SOLVED"| OUT(["返回轨迹（终止）"])
+    DEC -->|"PASS（跳出内层）"| UPD["情感更新<br/>x_t+1 = U(u,s,x≤t,y_t)"]
+    DEC -->|"FAIL 且 k<5"| INNER
+    INNER -->|否| UPD
+    UPD --> T
+    T -->|否| OUT

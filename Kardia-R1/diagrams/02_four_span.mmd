@@ -1,0 +1,9 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Microsoft YaHei, SimHei, PingFang SC, sans-serif"}}}%%
+flowchart TB
+    C["上下文 c<br/>画像 + 情境 + 历史"] --> M["策略 π_θ"]
+    M --> S1["① understanding<br/>用户意图与情绪线索"]
+    S1 --> S2["② reasoning<br/>内在评估 / 换位思考"]
+    S2 --> S3["③ emotion<br/>显式情感标签"]
+    S3 --> S4["④ response<br/>共情回复"]
+    S4 --> O["候选输出 o_j"]
+
